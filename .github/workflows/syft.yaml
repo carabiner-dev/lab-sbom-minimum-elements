@@ -29,3 +29,14 @@ jobs:
 
     - run: |
         cat syft-sbom.spdx.json
+
+    - name: 🔴🟡🟢 Verify
+      id: ampel-verify
+      uses: carabiner-dev/actions/ampel/verify@HEAD
+      with:
+        subject: "sha1:${{ github.sha }}" 
+        attestation: "syft-sbom.spdx.json"
+        collector: "jsonl:attestations.jsonl"
+        policy: "git+https://github.com/carabiner-dev/examples#baseline/osps-baseline.policy.json"
+        attest: true
+        fail: "false"
